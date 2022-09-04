@@ -49,11 +49,14 @@ async def add_domain(_: Client, msg: Message) -> None:
         except CalledProcessError as e:
             log.debug(f"{str(e)}")
 
-    returned_value: int = process.returncode
+    returned_value: int = process.wait()
 
     if returned_value != 0:
         await msg.reply_text("Cannot complete the operation.")
         return
+
+    else:
+        await msg.reply_text(f"Added {msg.command[1]} successfully.")
 
 
 def check_validate_url(url: str) -> bool:
